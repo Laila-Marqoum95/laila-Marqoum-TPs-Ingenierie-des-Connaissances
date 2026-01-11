@@ -1,0 +1,79 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex:   <http://ensak.ma/tp/> .
+
+# ----------------------------------------------
+# 1. Définition de l'ontologie
+# ----------------------------------------------
+ex:ENSAKOntology rdf:type owl:Ontology .
+
+# ----------------------------------------------
+# 2. Les classes
+# ----------------------------------------------
+ex:Personne  rdf:type owl:Class .
+ex:Etudiant  rdf:type owl:Class ;
+             rdfs:subClassOf ex:Personne .
+
+ex:Professeur rdf:type owl:Class ;
+              rdfs:subClassOf ex:Personne .
+
+ex:Cours     rdf:type owl:Class .
+ex:Filiere   rdf:type owl:Class .
+
+# ----------------------------------------------
+# 3. Propriétés (Object Properties)
+# ----------------------------------------------
+ex:enseigne rdf:type owl:ObjectProperty ;
+            rdfs:domain ex:Professeur ;
+            rdfs:range  ex:Cours .
+
+ex:etudie rdf:type owl:ObjectProperty ;
+          rdfs:domain ex:Etudiant ;
+          rdfs:range  ex:Cours .
+
+ex:appartientFiliere rdf:type owl:ObjectProperty ;
+                     rdfs:domain ex:Etudiant ;
+                     rdfs:range  ex:Filiere .
+
+# ----------------------------------------------
+# 4. Propriétés de données (Data Properties)
+# ----------------------------------------------
+foaf:name rdf:type owl:DatatypeProperty ;
+          rdfs:domain ex:Personne ;
+          rdfs:range  xsd:string .
+
+foaf:age rdf:type owl:DatatypeProperty ;
+         rdfs:domain ex:Personne ;
+         rdfs:range  xsd:integer .
+
+# ----------------------------------------------
+# 5. Cours (instances)
+# ----------------------------------------------
+ex:WebSemantique rdf:type ex:Cours .
+ex:IngenierieConnaissance rdf:type ex:Cours ;
+                          owl:sameAs ex:WebSemantique .
+
+# ----------------------------------------------
+# 6. Filière (instance)
+# ----------------------------------------------
+ex:IID rdf:type ex:Filiere .
+
+# ----------------------------------------------
+# 7. Les personnes (instances)
+# ----------------------------------------------
+ex:MmeNidal rdf:type ex:Professeur ;
+            foaf:name "Nidal Lamghari" ;
+            ex:enseigne ex:WebSemantique .
+
+ex:marqoum rdf:type ex:Etudiant ;
+           foaf:name "Marqoum Laila" ;
+           foaf:age 22 ;
+           ex:etudie ex:WebSemantique ;
+           ex:appartientFiliere ex:IID .
+
+ex:sellami rdf:type ex:Etudiant ;
+           foaf:name "Khadija Sellami" ;
+           ex:etudie ex:IngenierieConnaissance .
